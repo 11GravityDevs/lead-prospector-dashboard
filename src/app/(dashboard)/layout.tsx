@@ -15,9 +15,8 @@ export default async function DashboardLayout({
   if (!user) redirect("/login");
 
   const sidebarUser = {
-    name: user.user_metadata?.full_name ?? user.email ?? "",
+    name: user.user_metadata?.full_name ?? user.email?.split("@")[0] ?? "",
     email: user.email ?? "",
-    avatarUrl: user.user_metadata?.avatar_url as string | undefined,
   };
 
   return (

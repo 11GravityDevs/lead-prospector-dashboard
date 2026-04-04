@@ -21,7 +21,7 @@ npm run lint        # Lint
 - **Server Components por padrao** — `"use client"` apenas em componentes que precisam de interatividade (filtros, modals, formularios)
 - **Supabase direto** via `@supabase/ssr` — sem API intermediaria. Queries em `lib/queries/`, mutations em `lib/actions/`
 - **Filtros e paginacao via URL search params** — Server Components recebem `searchParams` e buscam dados no servidor
-- **Auth** com Google OAuth via Supabase Auth. Proxy global protege todas as rotas exceto `/login` e `/api/auth`
+- **Auth** com email/senha via Supabase Auth. Proxy global protege todas as rotas exceto `/login`, `/signup` e `/api/auth`
 
 ## Code Conventions
 

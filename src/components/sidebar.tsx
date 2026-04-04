@@ -15,7 +15,6 @@ import { cn } from "@/lib/cn";
 type User = {
   name: string;
   email: string;
-  avatarUrl?: string;
 };
 
 type NavItem = {
@@ -72,17 +71,9 @@ export function Sidebar({ user }: { user: User }) {
       </nav>
 
       <div className="flex items-center gap-3 px-4 py-4 border-t border-border">
-        {user.avatarUrl ? (
-          <img
-            src={user.avatarUrl}
-            alt=""
-            className="size-8 rounded-full"
-          />
-        ) : (
-          <div className="size-8 rounded-full bg-bg-elevated flex items-center justify-center text-xs font-medium text-text-secondary">
-            {user.name.charAt(0).toUpperCase()}
-          </div>
-        )}
+        <div className="size-8 rounded-full bg-bg-elevated flex items-center justify-center text-xs font-medium text-text-secondary">
+          {user.name.charAt(0).toUpperCase()}
+        </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium truncate">{user.name}</p>
           <p className="text-xs text-text-tertiary truncate">{user.email}</p>

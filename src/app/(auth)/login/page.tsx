@@ -1,22 +1,26 @@
 "use client";
 
-import { createBrowserClient } from "@supabase/ssr";
-import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase/config";
+import Link from "next/link";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
+import { login } from "@/lib/actions/login";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" disabled={pending} className="w-full py-3">
+      {pending ? "Entrando..." : "Entrar"}
+    </Button>
+  );
+}
 
 function LoginPage() {
-  function handleLogin() {
-    const supabase = createBrowserClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY,
-    );
-
-    supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/api/auth/callback`,
-      },
-    });
-  }
+  const [state, formAction] = useActionState(login, {
+    success: true,
+  });
 
   return (
     <div className="flex min-h-full items-center justify-center">
@@ -29,13 +33,32 @@ function LoginPage() {
             Dashboard de prospeccao B2B
           </p>
         </div>
-        <button
-          type="button"
-          onClick={handleLogin}
-          className="w-full rounded-md bg-green-500 px-4 py-3 text-sm font-medium text-text-inverse transition-colors duration-150 hover:bg-green-600"
-        >
-          Entrar com Google
-        </button>
+        <form action={formAction} className="flex w-full flex-col gap-4">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            autoComplete="email"
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Senha"
+            required
+            autoComplete="current-password"
+          />
+          {state?.error && (
+            <p className="text-sm text-red-400">{state.error}</p>
+          )}
+          <SubmitButton />
+        </form>
+        <p className="text-sm text-text-secondary">
+          Nao tem uma conta?{" "}
+          <Link href="/signup" className="text-green-400 hover:text-green-300">
+            Criar conta
+          </Link>
+        </p>
       </div>
     </div>
   );
