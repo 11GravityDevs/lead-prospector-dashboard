@@ -28,7 +28,7 @@ export async function getDispatchRuns(
     )
     .order("finished_at", { ascending: false })
     .range(from, to)
-    .overrideTypes<DispatchRun[]>();
+    .overrideTypes<DispatchRun[]>() as unknown as { data: DispatchRun[] | null; count: number | null };
 
   return { runs: data ?? [], total: count ?? 0 };
 }

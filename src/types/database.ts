@@ -78,6 +78,7 @@ export type Database = {
           ai_opportunity?: string | null;
           personalized_message?: string | null;
         };
+        Relationships: [];
       };
       niches: {
         Row: {
@@ -98,6 +99,7 @@ export type Database = {
           active?: boolean;
           sort_order?: number;
         };
+        Relationships: [];
       };
       prospecting_runs: {
         Row: {
@@ -136,6 +138,7 @@ export type Database = {
           duration_seconds?: number | null;
           run_status?: RunStatus;
         };
+        Relationships: [];
       };
       dispatch_runs: {
         Row: {
@@ -168,6 +171,7 @@ export type Database = {
           duration_seconds?: number | null;
           niches_processed?: string[];
         };
+        Relationships: [];
       };
       cities: {
         Row: {
@@ -185,6 +189,7 @@ export type Database = {
           name?: string;
           active?: boolean;
         };
+        Relationships: [];
       };
       settings: {
         Row: {
@@ -202,8 +207,12 @@ export type Database = {
           value?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
   };
 };
 
