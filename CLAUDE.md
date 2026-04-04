@@ -21,7 +21,7 @@ npm run lint        # Lint
 - **Server Components por padrao** — `"use client"` apenas em componentes que precisam de interatividade (filtros, modals, formularios)
 - **Supabase direto** via `@supabase/ssr` — sem API intermediaria. Queries em `lib/queries/`, mutations em `lib/actions/`
 - **Filtros e paginacao via URL search params** — Server Components recebem `searchParams` e buscam dados no servidor
-- **Auth** com Google OAuth via Supabase Auth. Middleware global protege todas as rotas exceto `/login` e `/api/auth`
+- **Auth** com Google OAuth via Supabase Auth. Proxy global protege todas as rotas exceto `/login` e `/api/auth`
 
 ## Code Conventions
 
@@ -54,7 +54,7 @@ npm run lint        # Lint
 
 ## Key Files
 
-- `middleware.ts` — Auth guard, redirects unauthenticated users to `/login`
+- `proxy.ts` — Auth guard, redirects unauthenticated users to `/login`
 - `app/(dashboard)/layout.tsx` — Sidebar + content area layout
 - `lib/supabase/server.ts` — Server-side Supabase client factory
 - `lib/queries/` — All read operations
