@@ -36,6 +36,13 @@
   --color-status-lost: #EF4444;
   --color-status-skipped: #71717A;
 
+  --color-status-new-10: oklch(from #3B82F6 l c h / 0.1);
+  --color-status-contacted-10: oklch(from #22C55E l c h / 0.1);
+  --color-status-follow-up-10: oklch(from #F59E0B l c h / 0.1);
+  --color-status-won-10: oklch(from #10B981 l c h / 0.1);
+  --color-status-lost-10: oklch(from #EF4444 l c h / 0.1);
+  --color-status-skipped-10: oklch(from #71717A l c h / 0.1);
+
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;

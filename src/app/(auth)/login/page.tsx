@@ -1,13 +1,13 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@/lib/supabase/config";
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase/config";
 
 function LoginPage() {
   function handleLogin() {
     const supabase = createBrowserClient(
       SUPABASE_URL,
-      SUPABASE_ANON_KEY,
+      SUPABASE_PUBLISHABLE_KEY,
     );
 
     supabase.auth.signInWithOAuth({
