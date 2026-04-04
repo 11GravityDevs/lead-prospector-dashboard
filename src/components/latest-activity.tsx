@@ -16,7 +16,6 @@ interface DispatchData {
   finished_at: string | null;
   total_sent: number;
   total_errors: number;
-  run_status: RunStatus;
 }
 
 export function LatestActivity({
@@ -93,10 +92,6 @@ export function LatestActivity({
               >
                 {dispatch.total_errors}
               </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-text-secondary">Status</span>
-              <Badge variant={dispatch.run_status} />
             </div>
           </div>
         ) : (

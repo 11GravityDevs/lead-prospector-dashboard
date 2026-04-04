@@ -6,6 +6,7 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
+import { formatSlug } from "@/lib/format";
 import type { NicheRow } from "@/lib/queries/dashboard";
 
 export function LeadsByNicheTable({ niches }: { niches: NicheRow[] }) {
@@ -25,7 +26,7 @@ export function LeadsByNicheTable({ niches }: { niches: NicheRow[] }) {
       <TableBody>
         {niches.map((niche) => (
           <TableRow key={niche.slug}>
-            <TableCell className="font-medium">{niche.name}</TableCell>
+            <TableCell className="font-medium">{formatSlug(niche.slug)}</TableCell>
             <TableCell className="tabular-nums">{niche.total}</TableCell>
             <TableCell className="tabular-nums text-status-new">
               {niche.new}

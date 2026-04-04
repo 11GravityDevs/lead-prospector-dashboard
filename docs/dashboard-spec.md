@@ -71,16 +71,15 @@ Listagem principal de leads com busca e filtros.
 
 **Filtros (barra superior):**
 - Busca por nome da empresa (text input)
-- Filtro por nicho (select/dropdown)
+- Filtro por nicho (select/dropdown, niches table has `slug` only — display via `formatSlug`)
 - Filtro por status (select/dropdown)
-- Filtro por cidade (select/dropdown, extraido do campo `address`)
 
 **Tabela (colunas visiveis):**
 | Coluna | Campo |
 |---|---|
 | Empresa | `company_name` |
-| Nicho | `niche` |
-| Telefone | `phone_whatsapp` |
+| Nicho | `niche` (displayed via `formatSlug`) |
+| Telefone | `phone_whatsapp` ?? `phone_gmb` |
 | Status | `status` (badge colorido) |
 | Avaliacao | `rating` + `review_count` |
 | Mensagem | `personalized_message` (truncada) |
@@ -99,16 +98,15 @@ Modal overlay que abre ao clicar em um lead na listagem.
 
 **Secao: Dados de Contato**
 - Nome da empresa
-- Telefone GMB / Telefone WhatsApp
+- Telefone GMB (`phone_gmb`) / Telefone WhatsApp (`phone_whatsapp`)
 - Website (link clicavel)
-- Endereco
-- Link do Google Maps (gmb_link)
-- Avaliacao (rating + quantidade de reviews)
+- Endereco (`address`)
+- Link do Google Maps (`gmb_link`)
+- Avaliacao (`rating` + `review_count`)
+- Status atual do lead (badge)
 
 **Secao: Mensagem de Abordagem**
 - Mensagem personalizada gerada pela IA
-- Status atual do lead (badge)
-- Data do primeiro contato (se houver)
 
 **Secao: Analise IA**
 - Descricao do negocio (`business_description`)
@@ -157,6 +155,8 @@ Historico de execucoes de disparo de WhatsApp.
 | Erros | `total_errors` |
 | Duracao | `duration_seconds` (formatado) |
 | Nichos | `niches_processed` (lista de badges) |
+
+Note: `dispatch_runs` does not have a `run_status` column (unlike `prospecting_runs`).
 
 **Comportamento:**
 - Ordenado por data (mais recente primeiro)

@@ -15,6 +15,10 @@ export function formatDuration(seconds: number): string {
   return `${min}m ${sec}s`;
 }
 
+export function formatSlug(slug: string): string {
+  return slug.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+}
+
 export function formatRelativeTime(date: string): string {
   const now = Date.now();
   const then = new Date(date).getTime();

@@ -5,11 +5,11 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Search } from "lucide-react";
+import { formatSlug } from "@/lib/format";
 import type { LeadStatus } from "@/types/database";
 
 interface LeadsFiltersProps {
-  niches: { slug: string; name: string }[];
-  cities: string[];
+  niches: { slug: string }[];
 }
 
 const STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
@@ -21,7 +21,7 @@ const STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
   { value: "skipped", label: "Ignorado" },
 ];
 
-export function LeadsFilters({ niches, cities }: LeadsFiltersProps) {
+export function LeadsFilters({ niches }: LeadsFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -66,7 +66,7 @@ export function LeadsFilters({ niches, cities }: LeadsFiltersProps) {
         <option value="">Todos os nichos</option>
         {niches.map((n) => (
           <option key={n.slug} value={n.slug}>
-            {n.name}
+            {formatSlug(n.slug)}
           </option>
         ))}
       </Select>
@@ -79,18 +79,6 @@ export function LeadsFilters({ niches, cities }: LeadsFiltersProps) {
         {STATUS_OPTIONS.map((s) => (
           <option key={s.value} value={s.value}>
             {s.label}
-          </option>
-        ))}
-      </Select>
-
-      <Select
-        value={searchParams.get("city") ?? ""}
-        onChange={(e) => updateParams("city", e.target.value)}
-      >
-        <option value="">Todas as cidades</option>
-        {cities.map((city) => (
-          <option key={city} value={city}>
-            {city}
           </option>
         ))}
       </Select>

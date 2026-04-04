@@ -7,7 +7,6 @@ export interface LeadsParams {
   q?: string;
   niche?: string;
   status?: string;
-  city?: string;
   page?: number;
 }
 
@@ -25,7 +24,7 @@ export async function getLeads(params: LeadsParams): Promise<LeadsResult> {
   let query = supabase
     .from("leads")
     .select(
-      "id, created_at, company_name, phone, phone_whatsapp, address, city, state, niche_slug, status, contacted_at, rating, review_count, website, gmb_link, business_description, business_summary, positive_points, negative_points, general_perception, ai_opportunity, personalized_message",
+      "place_id, created_at, company_name, category, phone_gmb, phone_whatsapp, address, niche, status, rating, review_count, website, gmb_link, business_description, business_summary, positive_points, negative_points, general_perception, ai_opportunity, personalized_message",
       { count: "exact" },
     );
 
@@ -34,15 +33,11 @@ export async function getLeads(params: LeadsParams): Promise<LeadsResult> {
   }
 
   if (params.niche) {
-    query = query.eq("niche_slug", params.niche);
+    query = query.eq("niche", params.niche);
   }
 
   if (params.status) {
     query = query.eq("status", params.status as LeadStatus);
-  }
-
-  if (params.city) {
-    query = query.eq("city", params.city);
   }
 
   const { data, count } = await query
@@ -53,31 +48,14 @@ export async function getLeads(params: LeadsParams): Promise<LeadsResult> {
   return { leads: data ?? [], total: count ?? 0 };
 }
 
-export async function getNichesForFilter(): Promise<
-  { slug: string; name: string }[]
-> {
+export async function getNichesForFilter(): Promise<{ slug: string }[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("niches")
-    .select("slug, name")
+    .select("slug")
     .eq("active", true)
     .order("sort_order")
-    .overrideTypes<{ slug: string; name: string }[]>();
+    .overrideTypes<{ slug: string }[]>();
 
   return data ?? [];
-}
-
-export async function getDistinctCities(): Promise<string[]> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("leads")
-    .select("city")
-    .overrideTypes<{ city: string | null }[]>();
-
-  const cities = new Set<string>();
-  for (const row of data ?? []) {
-    if (row.city) cities.add(row.city);
-  }
-
-  return Array.from(cities).sort();
 }

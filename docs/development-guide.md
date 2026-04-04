@@ -144,7 +144,7 @@ import { LeadsTable } from "@/components/leads-table"
 export default async function LeadsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ niche?: string; status?: string; q?: string; page?: string }>
+  searchParams: Promise<{ niche?: string; status?: string; q?: string; page?: string; }>
 }) {
   const params = await searchParams
   const { leads, total } = await getLeads(params)
@@ -210,7 +210,7 @@ interface GetLeadsParams {
   niche?: string
   status?: string
   q?: string
-  page?: string
+  page?: number
 }
 
 export async function getLeads(params: GetLeadsParams) {
@@ -221,7 +221,7 @@ export async function getLeads(params: GetLeadsParams) {
 
   let query = supabase
     .from("leads")
-    .select("*", { count: "exact" })
+    .select("place_id, created_at, company_name, category, phone_gmb, phone_whatsapp, address, niche, status, rating, review_count, website, gmb_link, business_description, business_summary, positive_points, negative_points, general_perception, ai_opportunity, personalized_message", { count: "exact" })
     .order("created_at", { ascending: false })
     .range(from, to)
 
@@ -327,25 +327,23 @@ export async function POST(request: Request) {
 
 ## Tipos
 
-Gerar tipos do Supabase automaticamente:
-
-```bash
-npx supabase gen types typescript --project-id <project-id> > types/database.ts
-```
-
-Derivar tipos uteis a partir do tipo gerado:
+The `types/database.ts` file defines the full Supabase schema types manually (matching the live database) and derives convenience aliases:
 
 ```tsx
-// types/database.ts (apos geracao, adicionar no final)
-import type { Database } from "./database"
-
-export type Lead = Database["public"]["Tables"]["leads"]["Row"]
-export type ProspectingRun = Database["public"]["Tables"]["prospecting_runs"]["Row"]
-export type DispatchRun = Database["public"]["Tables"]["dispatch_runs"]["Row"]
-export type Niche = Database["public"]["Tables"]["niches"]["Row"]
-export type Setting = Database["public"]["Tables"]["settings"]["Row"]
-export type LeadStatus = Database["public"]["Enums"]["lead_status"]
+// types/database.ts (bottom of file)
+export type Lead = Database["public"]["Tables"]["leads"]["Row"];
+export type Niche = Database["public"]["Tables"]["niches"]["Row"];
+export type ProspectingRun = Database["public"]["Tables"]["prospecting_runs"]["Row"];
+export type DispatchRun = Database["public"]["Tables"]["dispatch_runs"]["Row"];
+export type City = Database["public"]["Tables"]["cities"]["Row"];
+export type Setting = Database["public"]["Tables"]["settings"]["Row"];
 ```
+
+Key schema notes:
+- `leads` PK is `place_id` (not `id`). Has `niche` (not `niche_slug`). No `city`/`state`/`phone`/`contacted_at` columns. Has `phone_gmb` and `phone_whatsapp`
+- `niches` has no `name` column — use `formatSlug(slug)` from `lib/format.ts` for display
+- `prospecting_runs` has `run_status` but `dispatch_runs` does not
+- `cities` is a separate reference table (`name`, `active`)
 
 ---
 
@@ -522,7 +520,7 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=   # Chave anon (RLS protege os dados)
 
 - Queries no Supabase usam `.select("campo1, campo2")` com campos explicitos em vez de `"*"` em tabelas com muitas colunas (ex: `leads`). Isso reduz payload e tempo de resposta.
 - Paginacao server-side obrigatoria na tabela de leads (`.range(from, to)` no Supabase).
-- KPIs da home podem usar queries `.select("status", { count: "exact", head: true })` com filtro por status em vez de trazer todos os leads.
+- KPIs da home currently fetch all statuses and count client-side. Future optimization: use Postgres RPCs (`get_lead_counts_by_status`) for server-side aggregation (see `sql/optimize-queries.sql`).
 
 ### Renderizacao
 

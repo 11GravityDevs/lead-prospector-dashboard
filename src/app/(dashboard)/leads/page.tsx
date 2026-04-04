@@ -6,7 +6,6 @@ import { Pagination } from "@/components/pagination";
 import {
   getLeads,
   getNichesForFilter,
-  getDistinctCities,
   ITEMS_PER_PAGE,
 } from "@/lib/queries/leads";
 
@@ -17,33 +16,30 @@ export default async function LeadsPage({
     q?: string;
     niche?: string;
     status?: string;
-    city?: string;
     page?: string;
   }>;
 }) {
   const params = await searchParams;
   const page = Math.max(1, Number(params.page) || 1);
 
-  const [{ leads, total }, niches, cities] = await Promise.all([
+  const [{ leads, total }, niches] = await Promise.all([
     getLeads({
       q: params.q,
       niche: params.niche,
       status: params.status,
-      city: params.city,
       page,
     }),
     getNichesForFilter(),
-    getDistinctCities(),
   ]);
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
-  const hasFilters = !!(params.q || params.niche || params.status || params.city);
+  const hasFilters = !!(params.q || params.niche || params.status);
 
   return (
     <div className="space-y-6">
       <h1 className="text-[30px] font-semibold leading-9">Leads</h1>
 
-      <LeadsFilters niches={niches} cities={cities} />
+      <LeadsFilters niches={niches} />
 
       {leads.length > 0 ? (
         <>

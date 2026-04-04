@@ -10,7 +10,6 @@ export interface Kpis {
 
 export interface NicheRow {
   slug: string;
-  name: string;
   total: number;
   new: number;
   contacted: number;
@@ -18,8 +17,7 @@ export interface NicheRow {
 }
 
 type LeadStatusRow = { status: LeadStatus };
-type LeadNicheRow = { niche_slug: string; status: LeadStatus };
-type NicheSelectRow = { slug: string; name: string };
+type LeadNicheRow = { niche: string; status: LeadStatus };
 
 export async function getKpis(): Promise<Kpis> {
   const supabase = await createClient();
@@ -43,23 +41,22 @@ export async function getLeadsByNiche(): Promise<NicheRow[]> {
   const [{ data: niches }, { data: leads }] = await Promise.all([
     supabase
       .from("niches")
-      .select("slug, name")
+      .select("slug")
       .eq("active", true)
       .order("sort_order")
-      .overrideTypes<NicheSelectRow[]>(),
+      .overrideTypes<{ slug: string }[]>(),
     supabase
       .from("leads")
-      .select("niche_slug, status")
+      .select("niche, status")
       .overrideTypes<LeadNicheRow[]>(),
   ]);
 
   if (!niches || !leads) return [];
 
   return niches.map((niche) => {
-    const nicheLeads = leads.filter((l) => l.niche_slug === niche.slug);
+    const nicheLeads = leads.filter((l) => l.niche === niche.slug);
     return {
       slug: niche.slug,
-      name: niche.name,
       total: nicheLeads.length,
       new: nicheLeads.filter((l) => l.status === "new").length,
       contacted: nicheLeads.filter((l) => l.status === "contacted").length,
@@ -114,7 +111,7 @@ export async function getLatestDispatchRun() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("dispatch_runs")
-    .select("finished_at, total_sent, total_errors, run_status")
+    .select("finished_at, total_sent, total_errors")
     .order("finished_at", { ascending: false })
     .limit(1)
     .maybeSingle()
@@ -122,7 +119,6 @@ export async function getLatestDispatchRun() {
       finished_at: string | null;
       total_sent: number;
       total_errors: number;
-      run_status: RunStatus;
     }>();
 
   return data;

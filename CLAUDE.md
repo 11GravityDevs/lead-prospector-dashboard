@@ -60,16 +60,18 @@ npm run lint        # Lint
 - `lib/queries/` — All read operations
 - `lib/actions/` — All write operations (Server Actions)
 - `components/ui/` — Design system primitives
-- `types/database.ts` — Auto-generated Supabase types + derived aliases
+- `types/database.ts` — Supabase types matching live schema + derived aliases
+- `lib/format.ts` — Formatters (date, duration, slug display)
 
 ## Database
 
 Reads from the same Supabase project as the pipeline. Uses anon key + RLS (not service key). Tables consumed:
 
-- `leads` — Prospected businesses with contact data, AI analysis, status
-- `niches` — Business categories (slug, active, sort_order)
-- `prospecting_runs` — Prospecting execution log
-- `dispatch_runs` — WhatsApp dispatch execution log
+- `leads` — Prospected businesses (PK: `place_id`). Key columns: `company_name`, `niche`, `status`, `phone_gmb`, `phone_whatsapp`, `category`, `rating`, AI analysis fields. No `city`/`state` columns
+- `niches` — Business categories (`slug`, `active`, `sort_order`). No `name` column — use `formatSlug(slug)` for display
+- `cities` — Reference table of cities (`name`, `active`)
+- `prospecting_runs` — Prospecting execution log (`niche_slug`, `city_name`, `run_status`, etc.)
+- `dispatch_runs` — WhatsApp dispatch execution log. No `run_status` column
 - `settings` — Key-value pipeline configuration (only table with write access from dashboard)
 
 ## Docs

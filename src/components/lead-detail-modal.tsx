@@ -2,7 +2,6 @@
 
 import { Modal, ModalHeader, ModalBody } from "@/components/ui/modal";
 import { Badge } from "@/components/ui/badge";
-import { formatDate } from "@/lib/format";
 import type { Lead } from "@/types/database";
 import { ExternalLink, MapPin, Star } from "lucide-react";
 
@@ -49,12 +48,9 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
       <ModalBody className="space-y-6">
         <Section title="Dados de Contato">
           <dl className="grid grid-cols-2 gap-4">
-            <Field label="Telefone">{lead.phone}</Field>
+            <Field label="Telefone">{lead.phone_gmb}</Field>
             <Field label="WhatsApp">{lead.phone_whatsapp}</Field>
             <Field label="Endereco">{lead.address}</Field>
-            <Field label="Cidade">
-              {[lead.city, lead.state].filter(Boolean).join(", ") || null}
-            </Field>
             <Field label="Website">
               {lead.website ? (
                 <a
@@ -91,9 +87,6 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
             </Field>
             <Field label="Status">
               <Badge variant={lead.status} />
-            </Field>
-            <Field label="Data de contato">
-              {lead.contacted_at ? formatDate(lead.contacted_at) : null}
             </Field>
           </dl>
         </Section>
