@@ -29,7 +29,7 @@ function SignupPage() {
           <h1 className="text-[30px] font-semibold leading-9 text-text-primary">
             Lead Prospector
           </h1>
-          <p className="text-sm text-text-secondary">Dashboard de prospeccao B2B</p>
+          <p className="text-sm text-text-secondary">Dashboard de prospecção B2B</p>
         </div>
         <form action={formAction} className="flex w-full flex-col gap-4">
           <Input

@@ -26,7 +26,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: LayoutGrid },
   { label: "Leads", href: "/leads", icon: Users },
-  { label: "Prospeccao", href: "/prospecting", icon: Radar },
+  { label: "Prospecção", href: "/prospecting", icon: Radar },
   { label: "Disparos", href: "/dispatch", icon: Send },
 ];
 
@@ -83,7 +83,7 @@ export function Sidebar({ user }: { user: User }) {
             type="submit"
             className="text-text-tertiary hover:text-text-primary transition-colors"
           >
-            <LogOut className="size-4" />
+            <LogOut className="size-4 cursor-pointer" />
           </button>
         </form>
       </div>

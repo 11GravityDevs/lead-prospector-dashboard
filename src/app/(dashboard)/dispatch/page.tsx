@@ -2,6 +2,7 @@ import { Send } from "lucide-react";
 import { EmptyState } from "@/components/empty-state";
 import { DispatchRunsTable } from "@/components/dispatch-runs-table";
 import { Pagination } from "@/components/pagination";
+import { ToastTrigger } from "@/components/toast-trigger";
 import {
   getDispatchRuns,
   ITEMS_PER_PAGE,
@@ -17,12 +18,24 @@ export default async function DispatchPage({
   const params = await searchParams;
   const page = Math.max(1, Number(params.page) || 1);
 
-  const { runs, total } = await getDispatchRuns({ page });
+  let runs: Awaited<ReturnType<typeof getDispatchRuns>>["runs"] = [];
+  let total = 0;
+  let error = false;
+
+  try {
+    ({ runs, total } = await getDispatchRuns({ page }));
+  } catch {
+    error = true;
+  }
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
   return (
     <div className="space-y-6">
+      {error && (
+        <ToastTrigger message="Nao foi possivel carregar os disparos. Tente novamente." />
+      )}
+
       <h1 className="text-[30px] font-semibold leading-9">Disparos</h1>
 
       {runs.length > 0 ? (

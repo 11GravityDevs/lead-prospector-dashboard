@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ToastProvider } from "@/components/toast-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,7 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Lead Prospector",
-  description: "Dashboard de prospeccao B2B",
+  description: "Dashboard de prospecção B2B",
 };
 
 export default function RootLayout({
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} dark h-full antialiased`}>
       <body className="h-full bg-bg-app font-sans text-text-primary">
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );

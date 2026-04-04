@@ -3,6 +3,7 @@ import { EmptyState } from "@/components/empty-state";
 import { ProspectingRunsFilter } from "@/components/prospecting-runs-filter";
 import { ProspectingRunsTable } from "@/components/prospecting-runs-table";
 import { Pagination } from "@/components/pagination";
+import { ToastTrigger } from "@/components/toast-trigger";
 import {
   getProspectingRuns,
   ITEMS_PER_PAGE,
@@ -20,17 +21,30 @@ export default async function ProspectingPage({
   const params = await searchParams;
   const page = Math.max(1, Number(params.page) || 1);
 
-  const [{ runs, total }, niches] = await Promise.all([
-    getProspectingRuns({ niche: params.niche, page }),
-    getNichesForFilter(),
-  ]);
+  let runs: Awaited<ReturnType<typeof getProspectingRuns>>["runs"] = [];
+  let total = 0;
+  let niches: Awaited<ReturnType<typeof getNichesForFilter>> = [];
+  let error = false;
+
+  try {
+    [{ runs, total }, niches] = await Promise.all([
+      getProspectingRuns({ niche: params.niche, page }),
+      getNichesForFilter(),
+    ]);
+  } catch {
+    error = true;
+  }
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
   const hasFilters = !!params.niche;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-[30px] font-semibold leading-9">Prospeccao</h1>
+      {error && (
+        <ToastTrigger message="Nao foi possivel carregar as prospeccoes. Tente novamente." />
+      )}
+
+      <h1 className="text-[30px] font-semibold leading-9">Prospecção</h1>
 
       <ProspectingRunsFilter niches={niches} />
 

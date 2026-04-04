@@ -60,7 +60,7 @@ Visao geral em snapshot. Primeira tela apos o login.
 - Distribuicao entre: `new`, `contacted`, `skipped`, `follow_up`, `lost`, `won`
 
 **Ultima atividade (resumo):**
-- Ultima execucao de prospeccao: horario, nicho, cidade, leads novos encontrados
+- Ultima execucao de prospecção: horario, nicho, cidade, leads novos encontrados
 - Ultimo disparo WhatsApp: horario, total enviados, erros
 
 ---
@@ -118,9 +118,9 @@ Modal overlay que abre ao clicar em um lead na listagem.
 
 ---
 
-### 5. Historico de Prospeccao (`/prospecting`)
+### 5. Historico de Prospecção (`/prospecting`)
 
-Historico de execucoes da pipeline de prospeccao.
+Historico de execucoes da pipeline de prospecção.
 
 **Tabela:**
 | Coluna | Campo |
@@ -175,7 +175,7 @@ A tabela `settings` no Supabase e key-value (`key TEXT, value TEXT`). O formular
 
 | Campo | Chave no banco | Input | Descricao exibida |
 |---|---|---|---|
-| Cron de prospeccao | `prospecting_cron` | Text | Expressao cron que define quando a pipeline roda |
+| Cron de prospecção | `prospecting_cron` | Text | Expressao cron que define quando a pipeline roda |
 | Cron de disparo WhatsApp | `whatsapp_cron` | Text | Expressao cron que define quando as mensagens sao enviadas |
 | Intervalo do scheduler | `scheduler_poll_interval_ms` | Number (exibir em segundos) | Intervalo em que o scheduler verifica mudancas nas configuracoes |
 
@@ -216,7 +216,7 @@ A tabela `settings` no Supabase e key-value (`key TEXT, value TEXT`). O formular
 - Navegacao:
   - Home (icone: LayoutGrid)
   - Leads (icone: Users)
-  - Prospeccao (icone: Radar)
+  - Prospecção (icone: Radar)
   - Disparos (icone: Send)
   - separador visual
   - Configuracoes (icone: Settings)
@@ -267,7 +267,7 @@ Cada tela deve tratar o cenario sem dados. Layout: icone + titulo + descricao ce
 - **Quando:** nenhum lead e nenhum run registrado (primeiro acesso)
 - **Icone:** LayoutGrid (Lucide)
 - **Titulo:** "Nenhum dado ainda"
-- **Descricao:** "Aguardando a primeira execucao da pipeline de prospeccao."
+- **Descricao:** "Aguardando a primeira execucao da pipeline de prospecção."
 - **KPI cards:** exibir normalmente com valores zerados (0)
 
 ### Leads (sem resultados)
@@ -284,7 +284,7 @@ Dois cenarios distintos:
 - **Titulo:** "Nenhum resultado"
 - **Descricao:** "Tente ajustar os filtros ou o termo de busca."
 
-### Historico de Prospeccao (vazio)
+### Historico de Prospecção (vazio)
 
 - **Icone:** Radar (Lucide)
 - **Titulo:** "Nenhuma execucao registrada"
@@ -300,14 +300,15 @@ Dois cenarios distintos:
 
 ## Estados de erro
 
-Quando uma query ao Supabase falha. Layout: icone + titulo + descricao + botao de acao, centralizado.
+Quando uma query ao Supabase falha, exibir um toast de erro no canto superior direito da tela.
 
-- **Icone:** AlertTriangle (Lucide), cor `error`
+- **Variante:** erro (fundo com cor `error`, icone AlertTriangle)
 - **Titulo:** "Erro ao carregar dados"
 - **Descricao:** "Nao foi possivel conectar ao banco de dados. Tente novamente."
-- **Acao:** Botao secundario "Tentar novamente" que recarrega a pagina
+- **Auto-dismiss:** 5 segundos (com opcao de fechar manualmente)
+- **Animacao:** slide-in da direita + fade-out ao sair
 
-Implementacao: cada `page.tsx` faz a query dentro de try/catch. Em caso de erro, renderiza o componente de erro em vez do conteudo. Nao usar `error.tsx` do Next.js para evitar perder o layout (sidebar).
+Implementacao: cada `page.tsx` faz a query dentro de try/catch. Em caso de erro, dispara um toast de erro via hook `useToast`. Componentes necessarios: `components/ui/toast.tsx`, `hooks/use-toast.ts`, `components/toast-provider.tsx` (adicionado no root layout). Nao usar `error.tsx` do Next.js para evitar perder o layout (sidebar).
 
 ---
 

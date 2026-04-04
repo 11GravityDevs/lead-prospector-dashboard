@@ -1,10 +1,10 @@
 "use client";
 
-import { type FormEvent, useState, useTransition, useCallback } from "react";
+import { type FormEvent, useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Toast } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 import { saveSettings } from "@/lib/actions/settings";
 import { Loader2 } from "lucide-react";
 
@@ -31,7 +31,7 @@ const SECTIONS: SectionConfig[] = [
     fields: [
       {
         key: "prospecting_cron",
-        label: "Cron de prospeccao",
+        label: "Cron de prospecção",
         description:
           "Expressao cron que define quando a pipeline roda",
         type: "text",
@@ -140,18 +140,13 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     buildInitialValues(initialSettings),
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [toast, setToast] = useState<{
-    message: string;
-    variant: "success" | "error";
-  } | null>(null);
+  const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
   const displayInitial = buildInitialValues(initialSettings);
   const hasChanges = Object.keys(values).some(
     (key) => values[key] !== displayInitial[key],
   );
-
-  const handleCloseToast = useCallback(() => setToast(null), []);
 
   function validate(): Record<string, string> {
     const errs: Record<string, string> = {};
@@ -205,30 +200,15 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
     startTransition(async () => {
       const result = await saveSettings(changed);
       if (result.success) {
-        setToast({
-          message: "Configuracoes salvas com sucesso",
-          variant: "success",
-        });
+        toast("Configuracoes salvas com sucesso", "success");
       } else {
-        setToast({
-          message: result.error ?? "Erro ao salvar configuracoes",
-          variant: "error",
-        });
+        toast(result.error ?? "Erro ao salvar configuracoes", "error");
       }
     });
   }
 
   return (
-    <>
-      {toast && (
-        <Toast
-          message={toast.message}
-          variant={toast.variant}
-          onClose={handleCloseToast}
-        />
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-10">
+    <form onSubmit={handleSubmit} className="space-y-10">
         {SECTIONS.map((section, idx) => (
           <section key={section.title} className="space-y-4">
             {idx > 0 && <hr className="border-border" />}
@@ -280,7 +260,6 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
             "Salvar"
           )}
         </Button>
-      </form>
-    </>
+    </form>
   );
 }

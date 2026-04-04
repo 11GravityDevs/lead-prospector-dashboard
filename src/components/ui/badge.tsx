@@ -22,7 +22,7 @@ const VARIANT_CLASSES: Record<BadgeVariant, string> = {
 
 const LABEL: Record<BadgeVariant, string> = {
   new: "Novo",
-  contacted: "Contactado",
+  contacted: "Contatado",
   follow_up: "Follow-up",
   won: "Ganho",
   lost: "Perdido",

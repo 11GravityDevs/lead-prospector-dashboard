@@ -30,7 +30,7 @@ function LoginPage() {
             Lead Prospector
           </h1>
           <p className="text-sm text-text-secondary">
-            Dashboard de prospeccao B2B
+            Dashboard de prospecção B2B
           </p>
         </div>
         <form action={formAction} className="flex w-full flex-col gap-4">

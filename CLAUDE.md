@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-Dashboard interno para monitoramento e configuracao de uma pipeline automatizada de prospeccao B2B. Consome dados do mesmo Supabase que a pipeline (repo separado). Stack: Next.js 15 (App Router) + Tailwind v4 + Supabase + TypeScript.
+Dashboard interno para monitoramento e configuracao de uma pipeline automatizada de prospecção B2B. Consome dados do mesmo Supabase que a pipeline (repo separado). Stack: Next.js 15 (App Router) + Tailwind v4 + Supabase + TypeScript.
 
 ## Commands
 

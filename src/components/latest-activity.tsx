@@ -30,7 +30,7 @@ export function LatestActivity({
       <Card>
         <div className="flex items-center gap-2 text-text-secondary mb-4">
           <Radar size={16} strokeWidth={1.5} />
-          <span className="text-xs font-medium">Ultima Prospeccao</span>
+          <span className="text-xs font-medium">Ultima Prospecção</span>
         </div>
         {prospecting ? (
           <div className="space-y-2 text-sm">

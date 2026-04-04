@@ -14,7 +14,7 @@ interface LeadsFiltersProps {
 
 const STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
   { value: "new", label: "Novo" },
-  { value: "contacted", label: "Contactado" },
+  { value: "contacted", label: "Contatado" },
   { value: "follow_up", label: "Follow-up" },
   { value: "won", label: "Ganho" },
   { value: "lost", label: "Perdido" },
