@@ -44,7 +44,7 @@ export function TableHead({
   return (
     <th
       className={cn(
-        "text-left text-text-secondary font-medium text-xs px-4 py-3",
+        "text-left text-text-secondary font-medium text-sm px-4 py-3",
         className,
       )}
       {...props}

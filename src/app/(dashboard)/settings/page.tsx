@@ -15,10 +15,10 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-6">
       {error && (
-        <ToastTrigger message="Nao foi possivel carregar as configuracoes. Tente novamente." />
+        <ToastTrigger message="Não foi possível carregar as configurações. Tente novamente." />
       )}
 
-      <h1 className="text-[30px] font-semibold leading-9">Configuracoes</h1>
+      <h1 className="text-[30px] font-semibold leading-9">Configurações</h1>
       <SettingsForm initialSettings={settings} />
     </div>
   );

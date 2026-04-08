@@ -37,7 +37,7 @@ export function Modal({ open, onClose, children }: ModalProps) {
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative w-full max-w-[640px] max-h-[85vh] overflow-y-auto bg-bg-surface border border-border rounded-lg shadow-md p-6">
+      <div className="relative w-full max-w-[800px] max-h-[85vh] overflow-y-auto bg-bg-elevated border border-border rounded-lg shadow-md p-6">
         {children}
       </div>
     </div>,

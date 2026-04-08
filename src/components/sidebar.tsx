@@ -31,7 +31,7 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const SECONDARY_NAV: NavItem[] = [
-  { label: "Configuracoes", href: "/settings", icon: Settings },
+  { label: "Configurações", href: "/settings", icon: Settings },
 ];
 
 export function Sidebar({ user }: { user: User }) {
@@ -71,11 +71,11 @@ export function Sidebar({ user }: { user: User }) {
       </nav>
 
       <div className="flex items-center gap-3 px-4 py-4 border-t border-border">
-        <div className="size-8 rounded-full bg-bg-elevated flex items-center justify-center text-xs font-medium text-text-secondary">
+        <div className="size-7 rounded-full bg-bg-elevated flex items-center justify-center text-xs font-medium text-text-secondary">
           {user.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium truncate">{user.name}</p>
+          <p className="text-xs font-medium truncate">{user.name}</p>
           <p className="text-xs text-text-tertiary truncate">{user.email}</p>
         </div>
         <form action="/api/auth/logout" method="post">
@@ -103,7 +103,7 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
           : "text-text-secondary hover:bg-bg-elevated hover:text-text-primary",
       )}
     >
-      <Icon className="size-5 shrink-0" />
+      <Icon className="size-4 shrink-0" />
       {item.label}
     </Link>
   );

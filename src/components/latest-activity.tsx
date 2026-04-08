@@ -30,7 +30,7 @@ export function LatestActivity({
       <Card>
         <div className="flex items-center gap-2 text-text-secondary mb-4">
           <Radar size={16} strokeWidth={1.5} />
-          <span className="text-xs font-medium">Ultima Prospecção</span>
+          <span className="text-xs font-medium">Última Prospecção</span>
         </div>
         {prospecting ? (
           <div className="space-y-2 text-sm">
@@ -61,7 +61,7 @@ export function LatestActivity({
           </div>
         ) : (
           <p className="text-sm text-text-tertiary">
-            Nenhuma execucao registrada
+            Nenhuma execução registrada
           </p>
         )}
       </Card>
@@ -69,7 +69,7 @@ export function LatestActivity({
       <Card>
         <div className="flex items-center gap-2 text-text-secondary mb-4">
           <Send size={16} strokeWidth={1.5} />
-          <span className="text-xs font-medium">Ultimo Disparo</span>
+          <span className="text-xs font-medium">Último Disparo</span>
         </div>
         {dispatch ? (
           <div className="space-y-2 text-sm">

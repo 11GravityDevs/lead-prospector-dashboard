@@ -24,7 +24,7 @@ export function DispatchRunsTable({ runs }: DispatchRunsTableProps) {
           <TableHead>Enviados</TableHead>
           <TableHead>Ignorados</TableHead>
           <TableHead>Erros</TableHead>
-          <TableHead>Duracao</TableHead>
+          <TableHead>Duração</TableHead>
           <TableHead>Nichos</TableHead>
         </TableRow>
       </TableHeader>

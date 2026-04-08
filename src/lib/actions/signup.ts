@@ -25,7 +25,7 @@ export async function signup(
   });
 
   if (error) {
-    return { success: false, error: "Nao foi possivel criar a conta" };
+    return { success: false, error: "Não foi possível criar a conta" };
   }
 
   redirect("/");

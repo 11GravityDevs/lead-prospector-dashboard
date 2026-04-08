@@ -27,7 +27,7 @@ export function ProspectingRunsTable({ runs }: ProspectingRunsTableProps) {
           <TableHead>Processados</TableHead>
           <TableHead>Novos</TableHead>
           <TableHead>Erros</TableHead>
-          <TableHead>Duracao</TableHead>
+          <TableHead>Duração</TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>

@@ -59,7 +59,7 @@ function SignupPage() {
           <SubmitButton />
         </form>
         <p className="text-sm text-text-secondary">
-          Ja tem uma conta?{" "}
+          Já tem uma conta?{" "}
           <Link href="/login" className="text-green-400 hover:text-green-300">
             Entrar
           </Link>

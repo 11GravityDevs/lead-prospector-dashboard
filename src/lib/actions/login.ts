@@ -20,7 +20,7 @@ export async function login(
   });
 
   if (error) {
-    return { success: false, error: "Email ou senha invalidos" };
+    return { success: false, error: "Email ou senha inválidos" };
   }
 
   redirect("/");

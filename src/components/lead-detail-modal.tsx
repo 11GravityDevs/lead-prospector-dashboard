@@ -4,6 +4,7 @@ import { Modal, ModalHeader, ModalBody } from "@/components/ui/modal";
 import { Badge } from "@/components/ui/badge";
 import type { Lead } from "@/types/database";
 import { ExternalLink, MapPin, Star } from "lucide-react";
+import { formatPhone } from "@/lib/format";
 
 interface LeadDetailModalProps {
   lead: Lead | null;
@@ -48,9 +49,9 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
       <ModalBody className="space-y-6">
         <Section title="Dados de Contato">
           <dl className="grid grid-cols-2 gap-4">
-            <Field label="Telefone">{lead.phone_gmb}</Field>
-            <Field label="WhatsApp">{lead.phone_whatsapp}</Field>
-            <Field label="Endereco">{lead.address}</Field>
+            <Field label="Telefone">{lead.phone_gmb ? formatPhone(lead.phone_gmb) : null}</Field>
+            <Field label="WhatsApp">{lead.phone_whatsapp ? formatPhone(lead.phone_whatsapp) : null}</Field>
+            <Field label="Endereço">{lead.address}</Field>
             <Field label="Website">
               {lead.website ? (
                 <a
@@ -77,7 +78,7 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
                 </a>
               ) : null}
             </Field>
-            <Field label="Avaliacao">
+            <Field label="Avaliação">
               {lead.rating !== null ? (
                 <span className="inline-flex items-center gap-1">
                   <Star className="size-3.5 text-amber-400 fill-amber-400" />
@@ -105,13 +106,13 @@ export function LeadDetailModal({ lead, onClose }: LeadDetailModalProps) {
 
         <div className="border-t border-border" />
 
-        <Section title="Analise IA">
+        <Section title="Análise IA">
           <dl className="space-y-4">
-            <AiField label="Descricao do negocio" value={lead.business_description} />
+            <AiField label="Descrição do negócio" value={lead.business_description} />
             <AiField label="Resumo executivo" value={lead.business_summary} />
             <AiField label="Pontos positivos" value={lead.positive_points} />
             <AiField label="Pontos negativos" value={lead.negative_points} />
-            <AiField label="Percepcao geral" value={lead.general_perception} />
+            <AiField label="Percepção geral" value={lead.general_perception} />
             <AiField label="Oportunidade identificada" value={lead.ai_opportunity} />
           </dl>
         </Section>

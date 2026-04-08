@@ -28,7 +28,7 @@ const LABEL: Record<BadgeVariant, string> = {
   lost: "Perdido",
   skipped: "Ignorado",
   running: "Executando",
-  completed: "Concluido",
+  completed: "Concluído",
   failed: "Falhou",
 };
 
@@ -36,7 +36,7 @@ export function Badge({ variant, className, children, ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium",
+        "inline-flex items-center px-2 py-1 rounded-sm text-xs font-medium",
         VARIANT_CLASSES[variant],
         className,
       )}

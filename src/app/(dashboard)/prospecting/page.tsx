@@ -41,7 +41,7 @@ export default async function ProspectingPage({
   return (
     <div className="space-y-6">
       {error && (
-        <ToastTrigger message="Nao foi possivel carregar as prospeccoes. Tente novamente." />
+        <ToastTrigger message="Não foi possível carregar as prospecções. Tente novamente." />
       )}
 
       <h1 className="text-[30px] font-semibold leading-9">Prospecção</h1>
@@ -62,8 +62,8 @@ export default async function ProspectingPage({
       ) : (
         <EmptyState
           icon={Radar}
-          title="Nenhuma execucao registrada"
-          description="O historico aparecera aqui apos a primeira execucao da pipeline."
+          title="Nenhuma execução registrada"
+          description="O histórico aparecerá aqui após a primeira execução da pipeline."
         />
       )}
     </div>

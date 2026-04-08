@@ -48,7 +48,7 @@ export default async function LeadsPage({
   return (
     <div className="space-y-6">
       {error && (
-        <ToastTrigger message="Nao foi possivel carregar os leads. Tente novamente." />
+        <ToastTrigger message="Não foi possível carregar os leads. Tente novamente." />
       )}
 
       <h1 className="text-[30px] font-semibold leading-9">Leads</h1>
@@ -57,7 +57,7 @@ export default async function LeadsPage({
 
       {leads.length > 0 ? (
         <>
-          <LeadsTable leads={leads} niches={niches} />
+          <LeadsTable leads={leads} />
           <Pagination page={page} totalPages={totalPages} />
         </>
       ) : hasFilters ? (
@@ -70,7 +70,7 @@ export default async function LeadsPage({
         <EmptyState
           icon={Users}
           title="Nenhum lead encontrado"
-          description="Os leads aparecerao aqui apos a primeira execucao da pipeline."
+          description="Os leads aparecerão aqui após a primeira execução da pipeline."
         />
       )}
     </div>

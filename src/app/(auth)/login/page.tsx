@@ -49,12 +49,12 @@ function LoginPage() {
             autoComplete="current-password"
           />
           {state?.error && (
-            <p className="text-sm text-red-400">{state.error}</p>
+            <p className="text-sm text-error">{state.error}</p>
           )}
           <SubmitButton />
         </form>
         <p className="text-sm text-text-secondary">
-          Nao tem uma conta?{" "}
+          Não tem uma conta?{" "}
           <Link href="/signup" className="text-green-400 hover:text-green-300">
             Criar conta
           </Link>

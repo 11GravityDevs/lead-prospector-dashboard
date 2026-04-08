@@ -32,7 +32,7 @@ export function Pagination({ page, totalPages }: PaginationProps) {
         Anterior
       </Button>
       <span className="text-sm text-text-secondary">
-        Pagina {page} de {displayTotal}
+        Página {page} de {displayTotal}
       </span>
       <Button
         variant="secondary"
@@ -40,7 +40,7 @@ export function Pagination({ page, totalPages }: PaginationProps) {
         disabled={page >= totalPages}
         onClick={() => goToPage(page + 1)}
       >
-        Proxima
+        Próxima
       </Button>
     </div>
   );

@@ -33,7 +33,7 @@ export default async function DispatchPage({
   return (
     <div className="space-y-6">
       {error && (
-        <ToastTrigger message="Nao foi possivel carregar os disparos. Tente novamente." />
+        <ToastTrigger message="Não foi possível carregar os disparos. Tente novamente." />
       )}
 
       <h1 className="text-[30px] font-semibold leading-9">Disparos</h1>
@@ -47,7 +47,7 @@ export default async function DispatchPage({
         <EmptyState
           icon={Send}
           title="Nenhum disparo registrado"
-          description="O historico aparecera aqui apos o primeiro disparo de mensagens."
+          description="O histórico aparecerá aqui após o primeiro disparo de mensagens."
         />
       )}
     </div>

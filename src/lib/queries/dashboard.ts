@@ -16,76 +16,90 @@ export interface NicheRow {
   won: number;
 }
 
-type LeadStatusRow = { status: LeadStatus };
-type LeadNicheRow = { niche: string; status: LeadStatus };
+async function countLeads(filters: { status?: LeadStatus; niche?: string }) {
+  const supabase = await createClient();
+  let query = supabase
+    .from("leads")
+    .select("*", { count: "exact", head: true });
+
+  if (filters.status) query = query.eq("status", filters.status);
+  if (filters.niche) query = query.eq("niche", filters.niche);
+
+  const { count } = await query;
+  return count ?? 0;
+}
 
 export async function getKpis(): Promise<Kpis> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("leads")
-    .select("status")
-    .overrideTypes<LeadStatusRow[]>();
+  const [total, newCount, contacted, won] = await Promise.all([
+    countLeads({}),
+    countLeads({ status: "new" }),
+    countLeads({ status: "contacted" }),
+    countLeads({ status: "won" }),
+  ]);
 
-  const leads = data ?? [];
-  return {
-    total: leads.length,
-    new: leads.filter((l) => l.status === "new").length,
-    contacted: leads.filter((l) => l.status === "contacted").length,
-    won: leads.filter((l) => l.status === "won").length,
-  };
+  return { total, new: newCount, contacted, won };
 }
 
 export async function getLeadsByNiche(): Promise<NicheRow[]> {
   const supabase = await createClient();
 
-  const [{ data: niches }, { data: leads }] = await Promise.all([
-    supabase
-      .from("niches")
-      .select("slug")
-      .eq("active", true)
-      .order("sort_order")
-      .overrideTypes<{ slug: string }[]>(),
-    supabase
-      .from("leads")
-      .select("niche, status")
-      .overrideTypes<LeadNicheRow[]>(),
-  ]);
+  const { data: niches } = await supabase
+    .from("niches")
+    .select("slug")
+    .eq("active", true)
+    .order("sort_order")
+    .overrideTypes<{ slug: string }[]>();
 
-  if (!niches || !leads) return [];
+  if (!niches) return [];
 
-  return niches.map((niche) => {
-    const nicheLeads = leads.filter((l) => l.niche === niche.slug);
-    return {
-      slug: niche.slug,
-      total: nicheLeads.length,
-      new: nicheLeads.filter((l) => l.status === "new").length,
-      contacted: nicheLeads.filter((l) => l.status === "contacted").length,
-      won: nicheLeads.filter((l) => l.status === "won").length,
-    };
-  });
+  return Promise.all(
+    niches.map(async (niche) => {
+      const [total, newCount, contacted, won] = await Promise.all([
+        countLeads({ niche: niche.slug }),
+        countLeads({ niche: niche.slug, status: "new" }),
+        countLeads({ niche: niche.slug, status: "contacted" }),
+        countLeads({ niche: niche.slug, status: "won" }),
+      ]);
+
+      return {
+        slug: niche.slug,
+        total,
+        new: newCount,
+        contacted,
+        won,
+      };
+    })
+  );
 }
 
 export async function getLeadsByStatus(): Promise<Record<LeadStatus, number>> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("leads")
-    .select("status")
-    .overrideTypes<LeadStatusRow[]>();
+  const statuses: LeadStatus[] = [
+    "new",
+    "contacted",
+    "follow_up",
+    "won",
+    "lost",
+    "skipped",
+  ];
 
-  const counts: Record<LeadStatus, number> = {
-    new: 0,
-    contacted: 0,
-    follow_up: 0,
-    won: 0,
-    lost: 0,
-    skipped: 0,
-  };
+  const results = await Promise.all(
+    statuses.map((status) => countLeads({ status }))
+  );
 
-  for (const lead of data ?? []) {
-    counts[lead.status]++;
-  }
-
-  return counts;
+  return statuses.reduce(
+    (acc, status, i) => {
+      acc[status] = results[i];
+      return acc;
+    },
+    {
+      new: 0,
+      contacted: 0,
+      follow_up: 0,
+      won: 0,
+      lost: 0,
+      skipped: 0,
+    } as Record<LeadStatus, number>
+  );
 }
 
 export async function getLatestProspectingRun() {

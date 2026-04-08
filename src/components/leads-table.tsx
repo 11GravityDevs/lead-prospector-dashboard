@@ -11,19 +11,16 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { LeadDetailModal } from "@/components/lead-detail-modal";
-import { formatDate, formatSlug } from "@/lib/format";
+import { formatDate, formatSlug, formatPhone } from "@/lib/format";
 import { Star } from "lucide-react";
 import type { Lead } from "@/types/database";
 
 interface LeadsTableProps {
   leads: Lead[];
-  niches: { slug: string }[];
 }
 
-export function LeadsTable({ leads, niches }: LeadsTableProps) {
+export function LeadsTable({ leads }: LeadsTableProps) {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-
-  const nicheSet = new Set(niches.map((n) => n.slug));
 
   return (
     <>
@@ -34,7 +31,7 @@ export function LeadsTable({ leads, niches }: LeadsTableProps) {
             <TableHead>Nicho</TableHead>
             <TableHead>Telefone</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Avaliacao</TableHead>
+            <TableHead>Avaliação</TableHead>
             <TableHead>Mensagem</TableHead>
             <TableHead>Data</TableHead>
           </TableRow>
@@ -51,7 +48,7 @@ export function LeadsTable({ leads, niches }: LeadsTableProps) {
                 {formatSlug(lead.niche)}
               </TableCell>
               <TableCell>
-                {lead.phone_whatsapp ?? lead.phone_gmb ?? "—"}
+                {formatPhone(lead.phone_whatsapp ?? lead.phone_gmb)}
               </TableCell>
               <TableCell>
                 <Badge variant={lead.status} />
